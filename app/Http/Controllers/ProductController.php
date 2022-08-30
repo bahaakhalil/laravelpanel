@@ -76,7 +76,14 @@ class ProductController extends Controller
      */
     public function edit(Request $request ,$id)
     {
-         $slug = $request->type;
+        if ($request->type == 'program')
+            $program =  Program::where('id', $id)->first();
+        if ($request->type == 'attachment')
+            $program =  AttachmentsType::where('id', $id)->first();
+        if ($request->type == 'purchase')
+            $program =  PurchaseType::where('id', $id)->first();
+        if ($request->type == 'purchaseattach')
+            $program =  PurchaseTypeAttachment::where('id', $id)->first();        
         return view('pages.pages.product.edit', compact('slug'));
     }
 
@@ -89,16 +96,16 @@ class ProductController extends Controller
      */
     public function update(ProductUpdateRequest $request, $id)
     {
-        if ($request->program) {
+        if ($request->type == 'program') {
             $program =  Program::where('id', $id)->first();
             $program->update($request->validated());
-        } elseif ($request->attachment) {
+        } elseif ($request->type == 'attachment') {
             $attachment =  AttachmentsType::where('id', $id)->first();
             $attachment->update($request->validated());
-        } elseif ($request->purchase) {
+        } elseif ($request->type == 'purchase') {
             $purchase = PurchaseType::where('id', $id)->first();
             $purchase->update($request->validated());
-        } elseif ($request->purchaseattach) {
+        } elseif ($request->type == 'purchaseattach') {
             $purchaseattach = PurchaseTypeAttachment::where('id', $id)->first();
             $purchaseattach->update($request->validated());
         }
