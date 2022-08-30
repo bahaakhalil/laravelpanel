@@ -74,8 +74,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request ,$id)
     {
+         $slug = $request->type;
+        return view('pages.pages.product.edit', compact('slug'));
     }
 
     /**
